@@ -1,0 +1,107 @@
+Algo force brute
+
+Hypothèses:
+Chaque action ne peut être achetée qu'une seule fois.
+On ne peut pas acheter qu'une action entière.
+
+Soit MAX_INVEST la somme maximale à investir
+MAX_INVEST = 500€
+
+Les prix sont en €.
+
+Soit data_csv, une liste d'actions au format csv avec les champs:
+name: nom d'une action
+price: prix d'une action
+profit: bénéfice d'une action au bout de 2 ans en % par rapport à price
+
+Soit stock_name, le nom d'une action
+Soit stock_price, le prix d'une action
+stock_profit_percent, le profit d'une action en %
+
+Soit stock, une action modélisée par un tuple avec les 3 champs (stock_name, stock_price, stock_profit_percent)
+
+Soit dispo_stock_list, la liste des actions disponibles
+
+Soit len_dispo_stock_list, le nombre d'actions dans dispo_stock_list
+
+Soit la fonction import_data qui renvoie dispo_stock_list à partir de data_csv
+
+Soit can_buy_stock_list, la liste de toutes les combinaisons d'actions possibles
+
+Soit best_stock_list, la liste des actions (sous forme de tuple) que l'on devrait acheter pour maximiser le profit d'un client au bout de deux ans
+
+Soit best_stock_list_price, le coût des actions dans best_stock_list
+
+Soit best_stock_list_profit, le bénéfice des actions dans best_stock_list
+
+Soit len_best_stock_list, le nombre d'actions dans best_stock_list
+
+best_stock_list est vide au départ
+
+Objectifs:
+Trouver can_buy_stock_list
+Essayer toutes les combinaisons possible de can_buy_stock_list pour trouver best_stock_list
+
+Solution:
+
+bigO égale 0 au départ 
+
+Première boucle for len_combi entre 0 et len_dispo_stock_list
+Soit combi une combinaison d'actions
+combi est un tuple d'actions
+
+Soit combi_stock_list, les combinaisons combi d'actions de longeur len_combi
+combi_stock_list est une liste de tuples de combi
+
+Utilisation de la méthode combinations du module itertools:
+combi_stock_list = list(combinations(dispo_stock_list, j))
+
+La longeur de combi_stock_list = len_dispo_stock_list! / len_combi! / (len_dispo_stock_list-len_combi)!
+
+Le nombre d'éléments testés pour toutes les boucles = len_dispo_stock_list! / len_combi! / (len_dispo_stock_list-len_combi)! * (len_dispo_stock_list - 1)
+
+Deuxième boucle for combi dans combi_stock_list incluse dans la première boucle for
+
+	- Soit stock_combi_price, le prix des actions dans combi
+	- stock_combi_price égale à 0 au départ
+	- Soit stock_combi_profit, le bénéfice des actions dans combi
+	- stock_combi_profit égale à 0 au départ
+	- bigO égale bigO + 1
+
+Troisème boucle for stock dans combi incluse dans la deuxième boucle for
+	- Soit stock_profit, le profit d'une action en €
+	- stock_profit égale à stock_profit_percent divisé par 100 fois stock_price
+	- stock_combi_price égale à stock_list_price + stock_price
+    - stock_combi_profit égale à stock_list_profit plus stock_profit
+	
+Si stock_combi_price inférieure ou égale à MAX_INVEST alors:
+
+	- Soit stock_tuple un tuple consitué de combi, stock_combi_price et stock_combi_profit
+	- stock_tuple est rangé dans can_buy_stock_list
+
+Tri de can_buy_stock_list en fonction de stock_combi_profit par ordre décroissant
+
+Soit len_can_buy_stock_list, le nombre de stock_tuple dans can_buy_stock_list
+
+best_stock_list est le premier terme du premier élément de can_buy_stock_list
+
+On récupère en sortie:
+	
+	- len_dispo_stock_list
+	- big0
+	- len_can_buy_stock_list
+	- best_stock_list
+	- best_stock_list_price arrondi au centime près
+	- best_stock_list_profit arrondi au centime près
+	- len_best_stock_list
+	- la durée d'exécution de l'algo
+
+Pour la liste de 20 actions on obtient:
+bigO: 1048576 
+len_can_buy_stock_list: 813347 best_stock_list: (('Action-4', 70.0, 20.0), ('Action-5', 60.0, 17.0), ('Action-6', 80.0, 25.0), ('Action-8', 26.0, 11.0), ('Action-10', 34.0, 27.0), ('Action-11', 42.0, 17.0), ('Action-13', 38.0, 23.0), ('Action-18', 10.0, 14.0), ('Action-19', 24.0, 21.0), ('Action-20', 114.0, 18.0))
+best_stock_list_price: 498.0 
+best_stock_list_profit: 99.08
+len_best_stock_list: 10 duration in s: 1.9375
+
+Algorithme glouton
+Notation Grand O Complexité O(2^n) avec 20 égale 20

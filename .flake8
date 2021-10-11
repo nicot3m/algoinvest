@@ -1,0 +1,12 @@
+[flake8]
+
+exclude =
+    .git,
+	.idea
+	.gitignore,
+	.flake8,
+	data/,
+
+max-line-length=119
+format=html
+htmldir=flake-report

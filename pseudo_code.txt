@@ -1,0 +1,110 @@
+Algo type glouton dit problème du sac à dos
+
+Hypothèses:
+Chaque action ne peut être achetée qu'une seule fois.
+On ne peut pas acheter qu'une action entière.
+
+Soit MAX_INVEST la somme maximale à investir
+MAX_INVEST = 500€
+
+Les prix sont en €.
+
+Soit data_csv, une liste d'actions au format csv avec les champs:
+name: nom d'une action
+price: prix d'une action
+profit: bénéfice d'une action au bout de 2 ans en % par rapport à price
+
+Soit stock_name, le nom d'une action
+Soit stock_price, le prix d'une action
+stock_profit_percent, le profit d'une action en %
+
+Soit stock, une action modélisée par un tuple avec les 3 champs (stock_name, stock_price, stock_profit_percent)
+
+Soit dispo_stock_list, la liste des stocks disponibles
+
+Soit len_dispo_stock_list, le nombre d'actions dans dispo_stock_list
+
+Soit la fonction import_data qui renvoie dispo_stock_list à partir de data_csv
+
+Soit la fonction filter_and_sort_data qui:
+	
+	- Retire les actions au prix négatif de dispo_stock_list
+	- Retire les actions au profit négatif de dispo_stock_list
+	- Supprime les doublons de dispo_stock_list
+	- Tri de dispo_stock_list en fonction de stock_profit_percent par ordre décroissant
+
+Soit best_stock_list, la liste des actions que l'on devrait acheter pour maximiser le profit d'un client au bout de deux ans
+
+best_stock_list est vide au départ
+
+Soit best_stock_list_price, le coût des actions dans best_stock_list
+
+Soit best_stock_list_profit, le bénéfice des actions dans best_stock_list
+
+Soit len_best_stock_list, le nombre d'actions dans best_stock_list
+
+best_stock_list est vide au départ
+
+Objectifs:
+Trouver "le meilleur chemin" qui mène best_stock_list sans essayer toutes les combinaisons possibles
+Gain de temps: résultat en moins d'une seconde
+Trouver best_stock_list
+
+Remarque test boucle wile avec stock_list_price inférieure ou égale à MAX_INVEST et le nombre d'actions sélectionnées dans best_stock_list inférieur à len_dispo_stock_list mais l'algo oubliait certaines actions en fin de liste.
+
+Solution:
+Donc choix de la boucle for
+
+bigO égale 0 au départ 
+
+Boucle for stock dans dispo_stock_list
+
+	- bigO égale bigO + 1
+
+Si stock_list_price + stock_price inférieure ou égale à MAX_INVEST alors:
+
+	- Soit stock_profit, le profit d'une action en €
+	- stock_profit égale à stock_profit_percent divisé par 100 fois stock_price
+	- best_stock_list_price égale à best_stock_list_price + stock_price
+    - best_stock_list_profit égale à best_stock_list_profit plus stock_profit
+	- stock est rangé dans best_stock_list
+    - recalcule de len_best_stock_list
+	
+On récupère en sortie:
+
+	- len_dispo_stock_list
+	- best_stock_list
+	- best_stock_list_price arrondi au centime près
+	- best_stock_list_profit arrondi au centime près
+	- len_best_stock_list
+	- la durée d'exécution de l'algo
+
+Pour la liste de 20 actions on obtient:
+len_dispo_stock_list: 20
+bigO: 20 
+best_stock_list: [('Action-10', 34.0, 27.0), ('Action-6', 80.0, 25.0), ('Action-13', 38.0, 23.0), ('Action-19', 24.0, 21.0), ('Action-4', 70.0, 20.0), ('Action-20', 114.0, 18.0), ('Action-5', 60.0, 17.0), ('Action-11', 42.0, 17.0), ('Action-18', 10.0, 14.0), ('Action-17', 4.0, 12.0), ('Action-16', 8.0, 8.0), ('Action-14', 14.0, 1.0)]
+best_stock_list_price: 498.0
+best_stock_list_profit: 97.48
+len_best_stock_list: 12
+duration in s: 0.0
+
+Algorithme du sac à dos
+Notation Grand O Complexité O(n)
+
+Pour dataset1 on obtient:
+len_dispo_stock_list: 956
+bigO: 956
+best_stock_list: [('Share-XJMO', 9.39, 39.98), ('Share-KMTG', 23.21, 39.97), ('Share-MTLR', 16.49, 39.97), ('Share-GTQK', 15.4, 39.95), ('Share-LRBZ', 32.9, 39.95), ('Share-WPLI', 34.64, 39.91), ('Share-GIAJ', 10.75, 39.9), ('Share-GHIZ', 28.0, 39.89), ('Share-ZSDE', 15.11, 39.88), ('Share-IFCP', 29.23, 39.88), ('Share-FKJW', 21.08, 39.78), ('Share-NHWA', 29.18, 39.77), ('Share-LPDM', 39.35, 39.73), ('Share-QQTU', 33.19, 39.6), ('Share-USSR', 25.62, 39.56), ('Share-EMOV', 8.89, 39.52), ('Share-LGWG', 31.41, 39.5), ('Share-QLMK', 17.38, 39.49), ('Share-SKKC', 24.87, 39.49), ('Share-UEZB', 24.87, 39.43), ('Share-CBNY', 1.22, 39.31), ('Share-CGJM', 17.21, 39.3), ('Share-EVUW', 4.44, 39.22), ('Share-FHZN', 6.1, 38.09), ('Share-MLGM', 0.01, 18.86)]
+best_stock_list_price: 499.94
+best_stock_list_profit: 198.51
+len_best_stock_list: 25
+duration in s: 0.0
+
+Pour dataset2 on obtient:
+len_dispo_stock_list: 541
+bigO: 541
+best_stock_list: [('Share-PATS', 27.7, 39.97), ('Share-ALIY', 29.08, 39.93), ('Share-JWGF', 48.69, 39.93), ('Share-NDKR', 33.06, 39.91), ('Share-PLLK', 19.94, 39.91), ('Share-FWBE', 18.31, 39.82), ('Share-LFXB', 14.83, 39.79), ('Share-ZOFA', 25.32, 39.78), ('Share-ANFX', 38.55, 39.72), ('Share-LXZU', 4.24, 39.54), ('Share-FAPS', 32.57, 39.54), ('Share-XQII', 13.42, 39.51), ('Share-ECAQ', 31.66, 39.49), ('Share-JGTW', 35.29, 39.43), ('Share-IXCI', 26.32, 39.4), ('Share-DWSK', 29.49, 39.35), ('Share-ROOM', 15.06, 39.23), ('Share-VCXT', 29.19, 39.22), ('Share-YFVZ', 22.55, 39.1), ('Share-OCKK', 3.16, 36.39), ('Share-JMLZ', 1.27, 24.71), ('Share-DYVD', 0.28, 10.25)]
+best_stock_list_price: 499.98
+best_stock_list_profit: 197.77
+len_best_stock_list: 22
+duration in s: 0.0
